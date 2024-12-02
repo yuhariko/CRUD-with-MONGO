@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    image: "${IMAGE_NAME}:${IMAGE_VERSION}"
+    container_name: app
+    ports:
+      - "${PORT_NUMBER}:${PORT_NUMBER}"
+    depends_on:
+      - mongodb
+    env_file: 
+      - .env
+    environment:
+      MONGO_URI: "${MONGO_URI}"
+    command: python3 main.py
+
+  mongodb:
+    image: "mongo:latest"
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    restart: always
